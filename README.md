@@ -1,3 +1,12 @@
+---
+title: WeddingBudget.ai Backend API
+emoji: 💍
+colorFrom: gray
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # 👑 WeddingBudget.ai 
 
 **An AI-powered wedding budget estimation engine for high-end Indian destination weddings.**
