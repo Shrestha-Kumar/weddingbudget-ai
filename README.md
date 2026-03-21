@@ -1,12 +1,3 @@
----
-title: WeddingBudget.ai Backend API
-emoji: 💍
-colorFrom: gray
-colorTo: green
-sdk: docker
-pinned: false
----
-
 <div align="center">
 
 # 👑 WeddingBudget.ai
