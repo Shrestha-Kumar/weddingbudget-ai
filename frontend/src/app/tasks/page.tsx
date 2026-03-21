@@ -6,8 +6,8 @@ import { ListTodo } from "lucide-react";
 
 export default function TasksDashboard() {
   const [tasks, setTasks] = useState([
-    { id: 1, text: "Finalize wedding date", done: true, timeline: "6 Months Before" },
-    { id: 2, text: "Fix budget parameters based on AI Engine", done: true, timeline: "6 Months Before" },
+    { id: 1, text: "Finalize wedding date", done: false, timeline: "6 Months Before" },
+    { id: 2, text: "Fix budget parameters based on AI Engine", done: false, timeline: "6 Months Before" },
     { id: 3, text: "Create master guest list", done: false, timeline: "6 Months Before" },
     { id: 4, text: "Book primary venue and blocked rooms", done: false, timeline: "6 Months Before" },
     { id: 5, text: "Book wedding photographer portfolio", done: false, timeline: "3 Months Before" },

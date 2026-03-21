@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { useBudgetStore } from "@/store/useBudgetStore";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -18,6 +18,37 @@ export default function Tracker() {
   const [vendors, setVendors] = useState<Record<string, string>>({
     decor: "", fnb: "", logistics: "", artists: "", sundries: ""
   });
+  const [taskVelocity, setTaskVelocity] = useState<number>(0);
+
+  useEffect(() => {
+    // Sync Vendor DB
+    const savedVendors = localStorage.getItem("persistentVendorDB");
+    if (savedVendors) {
+      try {
+        const vList = JSON.parse(savedVendors);
+        const newActuals: Record<string, number> = { decor: 0, fnb: 0, logistics: 0, artists: 0, sundries: 0 };
+        const newVendorsMap: Record<string, string> = { decor: "", fnb: "", logistics: "", artists: "", sundries: "" };
+        vList.forEach((v: any) => {
+          if (newActuals[v.category] !== undefined) {
+            newActuals[v.category] += Number(v.quote || 0);
+            newVendorsMap[v.category] = newVendorsMap[v.category] ? newVendorsMap[v.category] + ", " + v.name : v.name;
+          }
+        });
+        setActuals(newActuals);
+        setVendors(newVendorsMap);
+      } catch (e) {}
+    }
+
+    // Sync Tasks DB
+    const savedTasks = localStorage.getItem("persistentTasksDB");
+    if (savedTasks) {
+      try {
+        const tList = JSON.parse(savedTasks);
+        const doneCount = tList.filter((t: any) => t.done).length;
+        setTaskVelocity(Math.round((doneCount / tList.length) * 100));
+      } catch (e) {}
+    }
+  }, []);
 
   const categories = [
     { id: "decor", name: "Décor & Production" },
@@ -89,8 +120,8 @@ export default function Tracker() {
                               type="text" 
                               className="w-40 h-9 bg-slate-50 text-sm" 
                               value={vendors[cat.id] || ''} 
-                              onChange={(e) => setVendors({ ...vendors, [cat.id]: e.target.value })} 
-                              placeholder="Vendor Name" 
+                              readOnly
+                              placeholder="Auto-synced from CRM" 
                             />
                           </TableCell>
                           <TableCell className="text-muted-foreground text-sm whitespace-nowrap">
@@ -98,11 +129,11 @@ export default function Tracker() {
                           </TableCell>
                           <TableCell>
                             <Input 
-                              type="number"
-                              className="w-32 h-9 border-primary/20"
-                              value={actuals[cat.id] || ''}
-                              onChange={(e) => setActuals({ ...actuals, [cat.id]: parseInt(e.target.value) || 0 })}
-                              placeholder="0"
+                              type="text"
+                              className="w-32 h-9 border-primary/20 bg-slate-50"
+                              value={actuals[cat.id] ? formatINR(actuals[cat.id]) : ''}
+                              readOnly
+                              placeholder="₹0"
                             />
                           </TableCell>
                           <TableCell className="text-right">
@@ -152,9 +183,13 @@ export default function Tracker() {
                 Manage Checklist →
               </Button>
             </div>
-            <Card className="shadow-sm border-dashed border-slate-300 bg-slate-50/50 rounded-2xl overflow-hidden">
-              <CardContent className="p-8 text-center text-slate-500 font-light tracking-wide">
-                Progress tasks and chronological checklists have been migrated to the standalone Task Tracking module.
+            <Card className="shadow-sm border border-slate-200 bg-white rounded-2xl overflow-hidden relative">
+              <div className="absolute top-0 right-0 h-full w-2 bg-slate-900"></div>
+              <CardContent className="p-8 flex items-center justify-between">
+                <div>
+                  <h3 className="font-bold text-slate-800 text-xl mb-1">Current Sync Velocity: <span className="text-emerald-600">{taskVelocity}%</span></h3>
+                  <p className="text-slate-500 font-light tracking-wide text-sm">Real-time sync applied directly from your standalone tracking module database.</p>
+                </div>
               </CardContent>
             </Card>
           </section>
