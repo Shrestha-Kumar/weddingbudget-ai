@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,6 +18,21 @@ const categories = [
 export default function VendorsDashboard() {
   const [vendorDB, setVendorDB] = useState<any[]>([]);
   const [newVendor, setNewVendor] = useState({ name: "", category: "decor", contact: "", quote: "", date: "" });
+
+  useEffect(() => {
+    const saved = localStorage.getItem("persistentVendorDB");
+    if (saved) {
+      try {
+        setVendorDB(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    if (vendorDB.length > 0) {
+      localStorage.setItem("persistentVendorDB", JSON.stringify(vendorDB));
+    }
+  }, [vendorDB]);
 
   const formatINR = (val: number) => {
     return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(val);

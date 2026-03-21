@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
 import { ListTodo } from "lucide-react";
 
@@ -23,6 +23,19 @@ export default function TasksDashboard() {
   const toggleTask = (id: number) => {
     setTasks(tasks.map(t => t.id === id ? { ...t, done: !t.done } : t));
   };
+
+  useEffect(() => {
+    const saved = localStorage.getItem("persistentTasksDB");
+    if (saved) {
+      try {
+        setTasks(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("persistentTasksDB", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <div className="min-h-screen bg-slate-50">

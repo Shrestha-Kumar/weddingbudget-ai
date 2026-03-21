@@ -34,13 +34,13 @@ export default function Dashboard() {
           fetchSundries({ hotel_tier: store.hotelTier })
         ]);
 
-        const logData = logisticsRes?.data || { cost_low: 45000, cost_high: 120000 };
+        const logData = logisticsRes?.data || { cost_low: 0, cost_high: 0 };
         store.setCostRange("logistics", { low: logData.cost_low, mid: (logData.cost_low + logData.cost_high)/2, high: logData.cost_high });
         
-        const fnbData = fnbRes?.data || { cost_low: 300000, cost_high: 600000 };
+        const fnbData = fnbRes?.data || { cost_low: 0, cost_high: 0 };
         store.setCostRange("fnb", { low: fnbData.cost_low, mid: (fnbData.cost_low + fnbData.cost_high)/2, high: fnbData.cost_high });
         
-        const artData = artistsRes?.data || { fee_low: 250000, fee_high: 750000 };
+        const artData = artistsRes?.data || { fee_low: 0, fee_high: 0 };
         store.setCostRange("artists", { low: artData.fee_low, mid: (artData.fee_low + artData.fee_high)/2, high: artData.fee_high });
         
         const sundriesTotalReq = sundriesRes?.data?.reduce((acc: any, item: any) => ({
@@ -48,7 +48,7 @@ export default function Dashboard() {
           high: acc.high + parseFloat(item.cost_high || 0)
         }), { low: 0, high: 0 });
         
-        const sundriesVal = (sundriesTotalReq && sundriesTotalReq.low > 0) ? sundriesTotalReq : { low: 50000, high: 150000 };
+        const sundriesVal = (sundriesTotalReq && sundriesTotalReq.low > 0) ? sundriesTotalReq : { low: 0, high: 0 };
         store.setCostRange("sundries", { low: sundriesVal.low, mid: (sundriesVal.low + sundriesVal.high)/2, high: sundriesVal.high });
         
         // Calculate decor costs by finding the Maximum cost per event category, preventing artificial inflation
