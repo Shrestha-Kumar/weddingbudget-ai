@@ -10,6 +10,7 @@
 
 # 🚨 **[LIVE DEMO AVAILABLE HERE](https://weddingbudget-ai-hazel.vercel.app/)** 🚨
 ### **Deployed Website URL: https://weddingbudget-ai-hazel.vercel.app/**
+## Note :- Open with you mobile internet
 
 <br>
 
