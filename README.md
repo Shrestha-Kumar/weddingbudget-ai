@@ -8,6 +8,11 @@
 [![Backend API](https://img.shields.io/badge/🤖_AI_API-Hugging_Face-yellow?style=for-the-badge)](https://shrestha2007-weddingbudget-api.hf.space/ping)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Shrestha-Kumar/weddingbudget-ai)
 
+# 🚨 **[LIVE DEMO AVAILABLE HERE](https://weddingbudget-ai-hazel.vercel.app/)** 🚨
+### **Deployed Website URL: https://weddingbudget-ai-hazel.vercel.app/**
+
+<br>
+
 **WedTech IIT Innovation Challenge 2025 — Product 3 (P3)**  
 _Issued by **Events by Athea**, a premium wedding planning firm managing 50+ destination weddings annually with budgets ranging from ₹50 Lakhs to ₹10 Crores._
 
