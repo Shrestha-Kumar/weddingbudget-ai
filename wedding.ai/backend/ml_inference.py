@@ -58,8 +58,8 @@ async def predict_cost(image_url: str) -> dict:
         # Mock prediction taking ~700ms to simulate CPU inference as requested
         import asyncio
         await asyncio.sleep(0.7)
-        # Random mock prediction
-        cost_mid = 100000.0 + (np.random.random() * 500000.0)
+        # Random mock prediction between 1.0 and 6.0 (representing Lakhs)
+        cost_mid = 1.0 + (np.random.random() * 5.0)
         cost_low = cost_mid * 0.8
         cost_high = cost_mid * 1.3
         model_confidence = round(0.85 + (np.random.random() * 0.1), 2)
