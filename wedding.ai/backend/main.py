@@ -19,6 +19,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+@app.get("/")
+async def root():
+    return {"message": "WeddingBudget.ai API is online", "status": "ok"}
 
 @app.get("/ping")
 async def ping():
