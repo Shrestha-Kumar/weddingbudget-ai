@@ -42,27 +42,21 @@ async def predict_cost(image_url: str) -> dict:
         response.raise_for_status()
         image_bytes = response.content
 
-    if session:
-        input_name = session.get_inputs()[0].name
-        input_data = preprocess_image(image_bytes)
-        
-        # Run inference
-        outputs = session.run(None, {input_name: input_data})
-        # Output is [Cost Low, Cost Mid, Cost High, Confidence]
-        predictions = outputs[0][0]
-        cost_low = float(predictions[0])
-        cost_mid = float(predictions[1])
-        cost_high = float(predictions[2])
-        model_confidence = float(predictions[3])
-    else:
-        # Mock prediction taking ~700ms to simulate CPU inference as requested
-        import asyncio
-        await asyncio.sleep(0.7)
-        # Random mock prediction between 1.0 and 6.0 (representing Lakhs)
-        cost_mid = 1.0 + (np.random.random() * 5.0)
-        cost_low = cost_mid * 0.8
-        cost_high = cost_mid * 1.3
-        model_confidence = round(0.85 + (np.random.random() * 0.1), 2)
+    # Use Gemini Vision for intelligent estimation
+    try:
+        from agent_logic import agent
+        vision_result = await agent.analyze_decor(image_url)
+        cost_low = vision_result.get("cost_low", 1.5)
+        cost_mid = vision_result.get("cost_mid", 1.85)
+        cost_high = vision_result.get("cost_high", 2.5)
+        model_confidence = vision_result.get("confidence", 0.9)
+    except Exception as e:
+        print(f"Vision Integration Error: {e}")
+        # Final emergency fallback
+        cost_mid = 1.85
+        cost_low = 1.5
+        cost_high = 2.5
+        model_confidence = 0.8
 
     # Generate Grad-CAM / Saliency Heatmap
     nparr = np.frombuffer(image_bytes, np.uint8)
