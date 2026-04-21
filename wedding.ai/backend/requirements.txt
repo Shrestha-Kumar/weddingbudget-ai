@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+onnxruntime
+opencv-python-headless
+numpy
+Pillow
+supabase
+python-dotenv
+httpx
+pydantic
+pydantic-settings
+python-multipart
+google-generativeai
+langchain-core
+requests
+# Only includes production inference dependencies to reduce image size and build complexity
